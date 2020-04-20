@@ -7,7 +7,7 @@ let external_connect = require('../database_info/external_connect');
 
 router.get('/customer/:id', function (req, res) {
     var query = "SELECT * FROM customers WHERE id=?";
-    legacy_connect.query(query, [req.params.id], (err, results, fields) => {
+    external_connect.query(query, [req.params.id], (err, results, fields) => {
         if (err)
             return console.error(err.message);
 
