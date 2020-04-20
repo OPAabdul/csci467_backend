@@ -15,6 +15,16 @@ router.get('/customer/:id', function (req, res) {
     }); 
 });
 
+router.get('/customers_ext', function (req, res) {
+    var query = "SELECT * FROM customers";
+    external_connect.query(query, (err, results, fields) => {
+        if (err)
+            return console.error(err.message)
+
+        res.send(results);
+    });
+});
+
 router.get('/customers', function (req, res) {
     var query = "SELECT * FROM customers";
     legacy_connect.query(query, (err, results, fields) => {
@@ -22,7 +32,6 @@ router.get('/customers', function (req, res) {
             return console.error(err.message)
 
         res.send(results);
-        var bodyParser = require('body-parser');
     });
 });
 
