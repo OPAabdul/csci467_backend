@@ -11,10 +11,10 @@ const mysql = require('mysql');
 
 const connection = mysql.createPool({
   connectionLimit: 10,
-  host: 'sql9.freemysqlhosting.net',
-  database: 'sql9333046',
-  user: 'sql9333046',
-  password: 'CsX1D7mQRD',
+  host: 'database-467.c1k3cdwvqcpw.us-east-2.rds.amazonaws.com',
+  database: 'quote_system_db',
+  user: 'admin',
+  password: 'password',
   port: '3306',
   multipleStatements: true
 })
