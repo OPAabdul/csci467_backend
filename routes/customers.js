@@ -17,12 +17,12 @@ router.get('/customer/:id', function (req, res) {
 
 router.get('/customers', function (req, res) {
     var query = "SELECT * FROM customers";
-    external_connect.query(query, (err, results, fields) => {
+    legacy_connect.query(query, (err, results, fields) => {
         if (err)
             return console.error(err.message)
 
         res.send(results);
-var bodyParser = require('body-parser');
+        var bodyParser = require('body-parser');
     });
 });
 
