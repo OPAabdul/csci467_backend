@@ -9,24 +9,20 @@ const mysql = require('mysql');
 //   multipleStatements: true
 // })
 
-const connection = mysql.createPool({
-  connectionLimit: 10,
+const connection = mysql.createConnection({
   host: 'database-467.c1k3cdwvqcpw.us-east-2.rds.amazonaws.com',
   database: 'quote_system_db',
   user: 'admin',
   password: 'password',
-  port: '3306',
-  multipleStatements: true
+  port: '3306'
 })
 
-console.log("connected to external");
-
-// connection.connect(function(error) {
-//     if (!!error) {
-//       console.log('Error');
-//     } else {
-//       console.log('Connected');
-//     }
-//   });
+connection.connect(function(error) {
+    if (!!error) {
+      console.log('Error external');
+    } else {
+      console.log('Connected external');
+    }
+  });
 
 module.exports = connection;
