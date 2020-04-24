@@ -16,7 +16,7 @@ router.get('/customer/:id', function (req, res) {
 });
 
 router.get('/customers_ext', function (req, res) {
-    var query = "SELECT * FROM customers";
+    var query = "SELECT name,city,street,contact FROM customers";
     external_connect.query(query, (err, results, fields) => {
         if (err)
             return console.error(err.message)
@@ -27,6 +27,7 @@ router.get('/customers_ext', function (req, res) {
 
 router.get('/customers', function (req, res) {
     var query = "SELECT * FROM customers";
+    console.log("customers backend");
     legacy_connect.query(query, (err, results, fields) => {
         if (err)
             return console.error(err.message)
