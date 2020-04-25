@@ -13,7 +13,7 @@ const connection = mysql.createConnection({
   host: 'database-467.c1k3cdwvqcpw.us-east-2.rds.amazonaws.com',
   database: 'quote_system_db',
   user: 'admin',
-  password: 'password',
+  password: 'newpassword',
   port: '3306'
 })
 
