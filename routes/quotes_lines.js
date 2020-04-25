@@ -16,9 +16,13 @@ router.post('/createQuote', function (req,res) {
     console.log(req.params);
 });
 
+router.get('/quotetest', function (req,res) {
+    console.log('quote test');
+})
+
 router.get('/quotes', function (req, res) {
     var query = "SELECT * FROM quotes";
-    legacy_connect.query(query, (err, results, fields) => {
+    external_connect.query(query, (err, results, fields) => {
         if (err)
             return console.error(err.message)
 
