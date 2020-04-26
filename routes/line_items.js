@@ -17,6 +17,16 @@ router.post('/createLine', function (req,res) {
     // console.log(req.body);
 });
 
+router.delete('/line/:id', function (req, res) {
+    var query = "DELETE FROM listi WHERE lid=?";
+    external_connect.query(query, [req.params.id], (err, results, fields) => {
+        if (err)
+            return console.error(err.message)
+
+        res.end();
+    });
+});
+
 router.get('/lines', function (req, res) {
     var query = "SELECT * FROM listi";
     external_connect.query(query, (err, results, fields) => {

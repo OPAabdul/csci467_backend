@@ -26,5 +26,14 @@ router.get('/associate/:id', function (req, res) {
     });
 });
 
+router.put('/updateAssociate/:id/:user/:pass/:addr', function (req, res) {
+    var query = "UPDATE associates SET username=?, password=?, address=? WHERE aid=?";
+    external_connect.query(query, [req.params.user,req.params.pass,req.params.addr,req.params.id], (err, results, fields) => {
+        if (err)
+            return console.error(err.message)
+
+        res.end();
+    });
+});
 
 module.exports = router;
