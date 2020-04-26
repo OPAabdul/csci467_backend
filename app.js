@@ -8,7 +8,9 @@ const cors = require('cors')
 
 var indexRouter = require('./routes/index');
 var customersRouter = require('./routes/customers');
-var quotes_linesRouter = require('./routes/quotes_lines');
+var quotesRouter = require('./routes/quotes');
+var line_itemsRouter = require('./routes/line_items');
+var associatesRouter = require('./routes/associates');
 var usersRouter = require('./routes/users');
 
 var app = express();
@@ -28,7 +30,9 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.use('/', indexRouter);
 app.use('/', customersRouter);
-app.use('/', quotes_linesRouter);
+app.use('/', quotesRouter);
+app.use('/', line_itemsRouter);
+app.use('/', associatesRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
