@@ -6,6 +6,7 @@ let external_connect = require('../database_info/external_connect');
 
 router.use(bodyParser.urlencoded({extended: false}));
 
+// POST requests
 router.post('/createQuote', function (req,res) {
     var query = "INSERT INTO quotes(cid, aid, status, email) ";
     query += "values(?,?,0,?)";
@@ -15,9 +16,21 @@ router.post('/createQuote', function (req,res) {
 
         res.end();
     }); 
-    console.log(req.body);
+    // console.log(req.body);
 });
 
+// PUT requests
+router.put('/updateQuotePrice/:id', function (req, res) {
+    var query = "UPDATE quotes SET total_price=(SELECT SUM(price) FROM listi WHERE listi.qid=?) WHERE quotes.qid=?";
+    external_connect.query(query, [req.params.id, req.params.id], (err, results, fields) => {
+        if (err)
+            console.error("failed to update quote price: " + err.message);
+        console.log(req.params.id);
+        res.end();
+    }); 
+});
+
+// GET requests
 router.get('/quotes', function (req, res) {
     var query = "SELECT * FROM quotes";
     external_connect.query(query, (err, results, fields) => {

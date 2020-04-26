@@ -16,5 +16,15 @@ router.get('/associates', function (req, res) {
     });
 });
 
+router.get('/associate/:id', function (req, res) {
+    var query = "SELECT * FROM associates WHERE aid=?";
+    external_connect.query(query, [req.params.id], (err, results, fields) => {
+        if (err)
+            return console.error(err.message)
+
+        res.send(results);
+    });
+});
+
 
 module.exports = router;
