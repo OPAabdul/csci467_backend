@@ -16,6 +16,18 @@ router.get('/auth', function (req, res) {
     });
 });
 
+router.post('/createAssociate', function (req,res) {
+    var query = "INSERT INTO associates(name,username,password,address) ";
+    query += "values(?,?,?,?)";
+    external_connect.query(query, [req.body.name,req.body.username,req.body.password,req.body.address], (err, results, fields) => {
+        if (err)
+            console.error("failed to insert line: " + err.message);
+
+        res.end();
+    }); 
+    // console.log(req.body);
+});
+
 router.get('/associates', function (req, res) {
     var query = "SELECT * FROM associates";
     external_connect.query(query, (err, results, fields) => {
