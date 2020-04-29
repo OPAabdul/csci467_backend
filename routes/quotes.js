@@ -53,7 +53,7 @@ router.get('/quotes', function (req, res) {
 
 router.get('/quotes_admin', function (req, res) {
     var query = "SELECT quotes.qid, customers.name AS cname, associates.name AS aname, ";
-    query += "quotes.total_price, quotes.email, DATE(quotes.date_ordered), IF(quotes.status=0, 'finalized', ";
+    query += "quotes.total_price, quotes.email, DATE(quotes.date_ordered) AS date_ordered, IF(quotes.status=0, 'finalized', ";
     query += " IF(quotes.status=1, 'sanctioned','ordered')) AS status FROM quotes ";
     query += "INNER JOIN customers ON quotes.cid = customers.id INNER JOIN associates ON quotes.aid = associates.aid;";
     external_connect.query(query, (err, results, fields) => {
@@ -81,7 +81,7 @@ router.get('/quotetest', function (req,res) {
 
 router.get('/quotes_info', function (req, res) {
     var query = "SELECT quotes.qid, customers.name AS cname, associates.name AS aname, ";
-    query += "quotes.total_price, quotes.email, quotes.date_ordered, quote.dis_dollar, quote.dis_percentage FROM quotes ";
+    query += "quotes.total_price, quotes.email, quotes.date_ordered, quotes.dis_dollar, quotes.dis_percentage FROM quotes ";
     query += "INNER JOIN customers ON quotes.cid = customers.id INNER JOIN associates ON quotes.aid = associates.aid WHERE status=0";
     external_connect.query(query, (err, results, fields) => {
         if (err)
