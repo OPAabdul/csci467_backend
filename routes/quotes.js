@@ -21,11 +21,11 @@ router.post('/createQuote', function (req,res) {
 
 // PUT requests
 router.put('/updateQuotePrice/:id', function (req, res) {
-    var query = "UPDATE quotes SET total_price=(SELECT SUM(price) FROM listi WHERE listi.qid=?) WHERE quotes.qid=?";
+    var query = "UPDATE quotes SET total_price=ROUND((SELECT SUM(price) FROM listi WHERE listi.qid=?),2) WHERE quotes.qid=?";
     external_connect.query(query, [req.params.id, req.params.id], (err, results, fields) => {
         if (err)
             console.error("failed to update quote price: " + err.message);
-        console.log(req.params.id);
+        // console.log(req.params.id);
         res.end();
     }); 
 });
@@ -83,6 +83,18 @@ router.get('/quotes_info', function (req, res) {
     var query = "SELECT quotes.qid, customers.name AS cname, associates.name AS aname, ";
     query += "quotes.total_price, quotes.email, quotes.date_ordered, quotes.dis_dollar, quotes.dis_percentage FROM quotes ";
     query += "INNER JOIN customers ON quotes.cid = customers.id INNER JOIN associates ON quotes.aid = associates.aid WHERE status=0";
+    external_connect.query(query, (err, results, fields) => {
+        if (err)
+            return console.error(err.message)
+
+        res.send(results);
+    });
+});
+
+router.get('/quotes_sanc', function (req, res) {
+    var query = "SELECT quotes.qid, customers.name AS cname, associates.name AS aname, ";
+    query += "quotes.total_price, quotes.email, quotes.date_ordered, quotes.dis_dollar, quotes.dis_percentage FROM quotes ";
+    query += "INNER JOIN customers ON quotes.cid = customers.id INNER JOIN associates ON quotes.aid = associates.aid WHERE status=1";
     external_connect.query(query, (err, results, fields) => {
         if (err)
             return console.error(err.message)
