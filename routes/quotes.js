@@ -40,6 +40,28 @@ router.put('/updateQuoteStatus/:id/:status', function (req, res) {
     }); 
 });
 
+router.put('/setDiscountedQuote/:id', function (req, res) {
+    var query = "UPDATE quotes SET ";
+    query += "total_price = total_price - (dis_percentage * ROUND((SELECT SUM(price) FROM listi WHERE listi.qid=?),2)) ";
+    query += "- dis_dollar WHERE quotes.qid=?";
+    external_connect.query(query, [req.params.id], (err, results, fields) => {
+        if (err)
+            console.error("failed to update quote price: " + err.message);
+        console.log(req.params.id);
+        res.end();
+    }); 
+});
+
+router.put('/setQuoteDiscDollar/:id/:disc/:dollar', function (req, res) {
+    var query = "UPDATE quotes SET dis_dollar = dis_dollar + ?, dis_percentage = dis_percentage + ? WHERE quotes.qid=?";
+    external_connect.query(query, [req.params.disc, req.params.dollar, req.params.id], (err, results, fields) => {
+        if (err)
+            console.error("failed to update quote price: " + err.message);
+        // console.log(req.params.id);
+        res.end();
+    }); 
+});
+
 // GET requests
 router.get('/quotes', function (req, res) {
     var query = "SELECT * FROM quotes";
@@ -102,6 +124,19 @@ router.get('/quotes_sanc', function (req, res) {
         res.send(results);
     });
 });
+
+router.get('/quotes_order', function (req, res) {
+    var query = "SELECT quotes.qid, customers.name AS cname, associates.name AS aname, ";
+    query += "quotes.total_price, quotes.email, quotes.date_ordered, quotes.dis_dollar, quotes.dis_percentage FROM quotes ";
+    query += "INNER JOIN customers ON quotes.cid = customers.id INNER JOIN associates ON quotes.aid = associates.aid WHERE status=2";
+    external_connect.query(query, (err, results, fields) => {
+        if (err)
+            return console.error(err.message)
+
+        res.send(results);
+    });
+});
+
 
 router.get('/quote/:email/:cid/:aid', function (req, res) {
     var query = "SELECT * FROM quotes WHERE email=? AND cid=? AND aid=? ORDER BY date_ordered DESC";
