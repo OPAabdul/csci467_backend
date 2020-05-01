@@ -87,7 +87,7 @@ router.get('/quotes', function (req, res) {
 router.get('/quotes_admin', function (req, res) {
     var query = "SELECT quotes.qid, customers.name AS cname, associates.name AS aname, ";
     query += "quotes.total_price, quotes.email, DATE(quotes.date_ordered) AS date_ordered, IF(quotes.status=0, 'finalized', ";
-    query += " IF(quotes.status=1, 'sanctioned','ordered')) AS status FROM quotes ";
+    query += " IF(quotes.status=1, 'sanctioned','ordered')) AS status, date_processed FROM quotes ";
     query += "INNER JOIN customers ON quotes.cid = customers.id INNER JOIN associates ON quotes.aid = associates.aid;";
     external_connect.query(query, (err, results, fields) => {
         if (err)

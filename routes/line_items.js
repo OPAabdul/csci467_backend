@@ -9,7 +9,7 @@ router.use(bodyParser.urlencoded({extended: false}));
 router.post('/createLine', function (req, res) {
     var query = "INSERT INTO listi(qid, descr, price, secret_notes) ";
     query += "values(?,?,?,?)";
-    // console.log(req.body);
+    console.log(req.body);
     var doublePrice = parseFloat(req.body.price);
     external_connect.query(query, [req.body.qid, req.body.descr, doublePrice, req.body.notes], (err, results, fields) => {
         if (err)
