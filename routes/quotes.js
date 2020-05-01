@@ -42,9 +42,9 @@ router.put('/updateQuoteStatus/:id/:status', function (req, res) {
 
 router.put('/setDiscountedQuote/:id', function (req, res) {
     var query = "UPDATE quotes SET ";
-    query += "total_price = total_price - (dis_percentage * ROUND((SELECT SUM(price) FROM listi WHERE listi.qid=?),2)) ";
-    query += "- dis_dollar WHERE quotes.qid=?";
-    external_connect.query(query, [req.params.id], (err, results, fields) => {
+    query += "total_price = ROUND((total_price - (dis_percentage * ROUND((SELECT SUM(price) FROM listi WHERE listi.qid=?),2)) ";
+    query += "- dis_dollar),2) WHERE quotes.qid=?";
+    external_connect.query(query, [req.params.id,req.params.id], (err, results, fields) => {
         if (err)
             console.error("failed to update quote price: " + err.message);
         console.log(req.params.id);
@@ -55,6 +55,17 @@ router.put('/setDiscountedQuote/:id', function (req, res) {
 router.put('/setQuoteDiscDollar/:id/:disc/:dollar', function (req, res) {
     var query = "UPDATE quotes SET dis_dollar = dis_dollar + ?, dis_percentage = dis_percentage + ? WHERE quotes.qid=?";
     external_connect.query(query, [req.params.disc, req.params.dollar, req.params.id], (err, results, fields) => {
+        if (err)
+            console.error("failed to update quote price: " + err.message);
+        // console.log(req.params.id);
+        res.end();
+    }); 
+});
+
+router.put('/updateProcessDate/:id/:date', function (req, res) {
+    var query = "UPDATE quotes SET date_processed = ? WHERE quotes.qid=?";
+    console.log(req.params);
+    external_connect.query(query, [req.params.date, req.params.id], (err, results, fields) => {
         if (err)
             console.error("failed to update quote price: " + err.message);
         // console.log(req.params.id);

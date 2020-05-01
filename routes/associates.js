@@ -68,4 +68,15 @@ router.put('/updateAssociate/:id/:user/:pass/:addr', function (req, res) {
     });
 });
 
+router.put('/updateAssociateCommission/:id/:coms', function (req, res) {
+    var query = "UPDATE associates SET total_sales=ROUND((total_sales + ?),2) WHERE aid=?";
+    external_connect.query(query, [req.params.coms,req.params.id], (err, results, fields) => {
+        if (err)
+            return console.error(err.message)
+
+        res.end();
+    });
+});
+
+
 module.exports = router;

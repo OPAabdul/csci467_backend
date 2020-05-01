@@ -64,9 +64,9 @@ router.put('/updateLine/:id/:descr/:price/:notes', function (req, res) {
     var query = "UPDATE listi SET descr=?, price=?, secret_notes=? WHERE lid=?";
     var tempnotes = req.params.notes;
     console.log(tempnotes);
-    if (tempnotes.localeCompare('none') == 0);
-        tempnotes = "";
-    console.log(tempnotes);
+    // if (tempnotes.localeCompare('none') == 0);
+    //     tempnotes = "";
+    // console.log(tempnotes);
 
     external_connect.query(query,
         [
